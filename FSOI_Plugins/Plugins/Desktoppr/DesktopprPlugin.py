@@ -1,9 +1,9 @@
 import SourceBase
 
 class DesktopprPlugin(SourceBase.SourceBase):
-    pluginid='_fsiplugin_desktoppr' #OVERRIDE THIS IN YOUR SUBCLASS. If you don't, the program will ignore your plugin.
-    sourcename='Desktoppr'
-    sourceurl='http://Desktoppr.co'
+    pluginid = '_fsiplugin_desktoppr' #OVERRIDE THIS IN YOUR SUBCLASS. If you don't, the program will ignore your plugin.
+    sourcename = 'Desktoppr'
+    sourceurl = 'http://Desktoppr.co'
     
     def __init__(self):
         '''Your plugin will be returned a DisplayBundle object. It contains system information like screen resolution.
@@ -20,6 +20,8 @@ class DesktopprPlugin(SourceBase.SourceBase):
         
         If you are positive that it will load, you can ignore this method and leave it blank, but it is not recommended.
         '''
+        import DesktopprApi
+        self.api = DesktopprApi.DesktopprAPI()
         return
     
     def get_images(self):
@@ -30,7 +32,7 @@ class DesktopprPlugin(SourceBase.SourceBase):
         '''This method should return a list containing a human friendly name at index 0, and a human readable url describing the source for this repository.
         For example, the EarthPorn subreddit returns a list ['EarthPorn Subreddit', 'http://reddit.com/r/EarthPorn'].
         This is used to populate the treeview object with your source information.'''
-        return [self.sourcename,self.sourceurl]
+        return [self.sourcename, self.sourceurl]
     
     def get_pluginid(self):
         '''This method should return a string that represents this plugins ID.
