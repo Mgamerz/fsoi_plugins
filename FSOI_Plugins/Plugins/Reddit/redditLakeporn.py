@@ -29,7 +29,7 @@ class redditEarthporn(SourceBase.SourceBase):
         self.imagelist=[]
         for x in submissions:
             filename = (x.url).split('/')[-1] #get filename
-            resolutionReg = re.search('[0-9]+ *(x *[0-9]+)',x.title) #get resolution info from title (following the rules)
+            resolutionReg = re.search('[0-9]+ *(x *[0-9]+)', x.title) #get resolution info from title (following the rules)
             if resolutionReg != None:
                 imageDimensions = resolutionReg.group().split('x')
                 image_width=int(imageDimensions[0].strip())

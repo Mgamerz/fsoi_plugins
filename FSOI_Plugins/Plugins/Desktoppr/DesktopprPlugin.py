@@ -24,9 +24,15 @@ class DesktopprPlugin(SourceBase.SourceBase):
         self.api = DesktopprApi.DesktopprAPI()
         return
     
-    def get_images(self):
+    def get_images(self, displaybundle):
         '''This method should return a list of URLs.'''
-        return []
+        #Might need to do config specific options here when configuration is implemented.
+        urls = self.api.get_wallpaper_urls()
+        url_group = []
+        for url in urls:
+            url_group.append((url, self.filename_from_url(url)))
+
+        return url_group
     
     def get_source_info(self):
         '''This method should return a list containing a human friendly name at index 0, and a human readable url describing the source for this repository.

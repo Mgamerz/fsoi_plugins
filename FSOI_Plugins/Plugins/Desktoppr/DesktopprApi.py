@@ -129,10 +129,7 @@ class DesktopprAPI:
             wallpapers = []
             json = response.json()['response']
             for paperinfo in json:
-                wallpaper = Wallpaper()
-                for key in paperinfo:
-                    setattr(wallpaper, key, paperinfo[key])
-                wallpapers.append(wallpaper)
+                wallpapers.append(Wallpaper(paperinfo))
             return wallpapers
         else:
             logging.info('Error getting wallpapers:', response.status_code)
@@ -153,14 +150,15 @@ class DesktopprAPI:
         urls = []
         if wallpapers:
             for wallpaper in wallpapers:
-                urls.append(wallpaper.url)
+                urls.append(wallpaper.image.url)
         return urls
 
     def get_user_followers(self, username, page=1):
         '''Fetches a list of users who follow this user.
         Returns None if the user has no followers, cannot be found, or an error occurs.
-        Returns a list of User objects otherwise.'''
-        requesturl = '{}users/{}/followers'.format(self.baseurl,username)
+        Returns a list of User objects otherwise.
+        '''
+        requesturl = '{}users/{}/followers'.format(self.baseurl, username)
         query = {'page':page}
         r = requests.get(requesturl, params=query, headers={'Connection': 'close'})
         if r.status_code==200:
@@ -198,7 +196,7 @@ class DesktopprAPI:
         r = requests.get(requesturl, headers={'Connection': 'close'})
         if r.status_code == 500 or r.status_code == 404:
             #error occurred
-            logging.info('Status code:{}', r.status_code)
+            logging.info('Status code for URL {}: {}'.format(r.url, r.status_code))
             return None
         wallpaper = Wallpaper(r.json()['response'])
         return wallpaper
@@ -546,7 +544,6 @@ class User:
                 #There are no dictionaries in the response for a user.
                 setattr(self, attribute, info[attribute])
 
-
     def __str__(self):
         string = 'User object: '
         props = []
@@ -555,11 +552,11 @@ class User:
                 props.append('{}={}'.format(attr, str(getattr(self, attr))))
         return '{}{}'.format(string, str(props))
 
-class Image:
+class Image(object):
     '''Represents an image object (a part of a wallpaper object). It will either contain only a url or a url, width and height, and another Image object..
     Width and Height attributes signify that this is a preview or a thumbnail image.'''
 
-    def __init__(self,info=None):
+    def __init__(self, info=None):
         self.thumb = None
         self.preview = None
         self.url = None
