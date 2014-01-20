@@ -5,6 +5,7 @@
 
 #files
 epsettings.ini
+wn_sources.ini
 plugins.db
 
 # Packages

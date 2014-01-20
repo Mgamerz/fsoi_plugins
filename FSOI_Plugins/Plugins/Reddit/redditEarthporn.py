@@ -58,14 +58,14 @@ class redditEarthporn(SourceBase.SourceBase):
         return ['{} Subreddit'.format(self.subreddit), self.sourceurl]
 
     def get_dependencies(self):
-        dependencies = ['praw']
+        dependencies = ['praw', 'tkinter']
         return dependencies
 
     def configure(self, tk_window):
         wdw = Toplevel()
         wdw.geometry('+400+400')
         #Setup interface
-        wdw.title = 'Earthporn Plugin Options'
+        wdw.title('Earthporn Plugin Options')
         ttk.Label(wdw, text='EarthPorn Subreddit Plugin Options').grid(row=0, column=0, columnspan=3)
 
         self.res_setting = IntVar()
